@@ -30,6 +30,17 @@ interface PageProps {
   params: { id: string };
 }
 
+
+export async function generateStaticParams() {
+  const response = await api.get('/api/vehicles');
+  const vehicles = response.data;
+
+  // Return an array of paths with vehicle IDs
+  return vehicles.map((vehicle: Vehicle) => ({
+    id: vehicle.id.toString(),
+  }));
+}
+
 export default function VehicleDetailsPage({ params }: PageProps) {
   const [vehicleId, setVehicleId] = useState<string | null>(null);
   const [vehicle, setVehicle] = useState<Vehicle | null>(null);
